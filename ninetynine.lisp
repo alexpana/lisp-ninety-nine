@@ -90,9 +90,19 @@
 		  (decode-rle '((4 a) (2 b) d (3 c)))
 		  '(a a a a b b d c c c)))
 
-;; P13 Duplicate the elements of a list
+;; P14 Duplicate the elements of a list
 (defun dupe (l)
   (mapcan (lambda (x) (list x x)) l))
 
 (assert (equal (dupe '(1 2 3)) '(1 1 2 2 3 3)))
 (assert (equal (dupe '((1 2) 3)) '((1 2) (1 2) 3 3)))
+
+;; P15 Replicate the elements of a list a given number of times
+(defun repl (l n)
+  (mapcan (lambda (x) (make-list n :initial-element x)) l))
+
+(assert (equal (repl '(a b c) 3) '(a a a b b b c c c)))
+(assert (equal (repl '((a b)) 3) '((a b) (a b) (a b))))
+
+;; P16 Drop every N'th element from a list
+
