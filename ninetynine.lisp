@@ -91,3 +91,8 @@
 		  '(a a a a b b d c c c)))
 
 ;; P13 Duplicate the elements of a list
+(defun dupe (l)
+  (mapcan (lambda (x) (list x x)) l))
+
+(assert (equal (dupe '(1 2 3)) '(1 1 2 2 3 3)))
+(assert (equal (dupe '((1 2) 3)) '((1 2) (1 2) 3 3)))
