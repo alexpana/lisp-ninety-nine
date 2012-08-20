@@ -106,8 +106,59 @@
 
 ;; P16 Drop every N'th element from a list
 (defun dropnth (l n)
-  (if (> (length l) n)
-      (dropnth (delete-if (lambda (x) t) l :start n :count 1) n)
+  (if (>= (length l) n)
+      (append (subseq l 0 (- n 1)) (dropnth (subseq l n) n))
     l))
 
-(assert (equal (dropnth '(1 3 5 7 9) 2) '(3 7)))
+(assert (equal (dropnth '(1 3 5 7 9) 2) '(1 5 9)))
+(assert (equal (dropnth '(1 2 3 4 5) 1) '()))
+;(assert (equal (dropnth '(1) 0) '(1)))
+
+;; P17 Split a list into two parts; the length of the first one is given
+(defun split (l n)
+  (if (> (length l) n)
+      (list (subseq l 0 n) (subseq l n))
+    l))
+
+(assert (equal (split '(1 2 3 4 5) 2) '((1 2) (3 4 5))))
+(assert (equal (split '(1 2 3) 4) '(1 2 3)))
+
+;; P18 Extract a slice from a list from I to K ( inside limits )
+(defun slice (l from to)
+  (append (subseq l 0 from) (subseq l (+ to 1))))
+
+(assert (equal (slice '(1 2 3 4 5 6) 2 4) '(1 2 6)))
+
+;; P19 Rotate a list N places to the left
+(defun rotate (l n)
+  (cond
+	((= n 0) l)
+	((< n 0) (rotate l (+ n (length l))))
+	((> n 0) (rotate (append (rest l) (list (car l))) (- n 1)))))
+
+(assert (equal (rotate '(1 2 3 4 5) 3) '(4 5 1 2 3)))
+(assert (equal (rotate '(a b c d e f g h) -2) '(g h a b c d e f)))
+
+;; P20 Remove the K'th element from a list
+(defun remove-kth (l k)
+  (append (subseq l 0 k) (subseq l (+ k 1) )))
+
+(assert (equal (remove-kth '(a b c d) 2) '(a b d)))
+
+;; P21 Insert an element at a given position into a list
+(defun insert-at (x l n)
+  (append (subseq l 0 n) (list x) (subseq l n)))
+
+(assert (equal (insert-at '3 '(0 1 2 4 5) 3) '(0 1 2 3 4 5)))
+
+;; P22 Create a list containing all integers within a given range
+(defun range (a b)
+  (let ((result nil)) 
+	(dotimes (i (+ (- b a) 1)) (push (+ i a) result))
+	(nreverse result)))
+
+(assert (equal (range 3 5) '(3 4 5)))
+(assert (equal (range -3 3) '(-3 -2 -1 0 1 2 3)))
+
+;; P23 Extract a given number of randomly selected elements from a list
+
