@@ -161,4 +161,20 @@
 (assert (equal (range -3 3) '(-3 -2 -1 0 1 2 3)))
 
 ;; P23 Extract a given number of randomly selected elements from a list
+(setf *random-state* (make-random-state t)) ;sets the global random state
+(defun extract (l n)
+  (if (= n 0) 
+	  l
+	(extract (remove-kth l (random (length l))) (- n 1))))
+
+(assert (= (length (extract '(1 2 3 4 5) 2)) 3))
+
+;; P24 Draw N different random numbers from the set 1..M
+(defun lotto-select (n m)
+  (let ((u nil))
+	(dotimes (i n)
+	  (push (random m) u))
+	u))
+
+;; P25 Generate a random permutation of the elements of a list
 
